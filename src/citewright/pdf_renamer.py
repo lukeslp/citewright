@@ -108,8 +108,20 @@ class PDFRenamer:
             try:
                 with open(RENAME_LOG_FILE, "r") as f:
                     data = json.load(f)
-                    # We don't restore operations, just keep the file for history
-            except (json.JSONDecodeError, IOError):
+                    # Restore operations for undo functionality
+                    for op_data in data.get("operations", []):
+                        if op_data.get("executed") and not op_data.get("error"):
+                            op = RenameOperation(
+                                original_path=Path(op_data["original_path"]),
+                                new_path=Path(op_data["new_path"]),
+                                metadata=None,  # Metadata not needed for undo
+                                strategy=op_data.get("strategy", "unknown"),
+                                dry_run=False,
+                            )
+                            op.executed = True
+                            op.timestamp = op_data.get("timestamp", "")
+                            self.operations.append(op)
+            except (json.JSONDecodeError, IOError, KeyError):
                 pass
     
     def _save_log(self) -> None:

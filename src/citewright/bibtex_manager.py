@@ -339,3 +339,7 @@ class BibTeXManager:
     def __contains__(self, cite_key: str) -> bool:
         """Check if a citation key exists."""
         return cite_key in self.entries
+    
+    def __bool__(self) -> bool:
+        """Return True so the manager is always truthy."""
+        return True
