@@ -20,7 +20,7 @@ from .api.clients import (
     UnpaywallClient,
 )
 from .utils.extractors import (
-    extract_text_from_pdf,
+    extract_text_from_file,
     extract_pdf_metadata,
     extract_identifiers,
     ExtractedIdentifiers,
@@ -93,7 +93,7 @@ class MetadataAggregator:
         
         # Step 1: Extract local metadata and text
         local_metadata = extract_pdf_metadata(pdf_path)
-        text = extract_text_from_pdf(pdf_path)
+        text = extract_text_from_file(pdf_path)
         
         # Step 2: Extract identifiers from text
         identifiers = ExtractedIdentifiers()

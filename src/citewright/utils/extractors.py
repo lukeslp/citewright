@@ -60,6 +60,29 @@ PMID_PATTERNS = [
 YEAR_PATTERN = r'\b(19\d{2}|20[0-3]\d)\b'
 
 
+def extract_text_from_file(file_path: Path, max_chars: int = 5000) -> Optional[str]:
+    """
+    Extract text from various file formats.
+    
+    Args:
+        file_path: Path to the file.
+        max_chars: Maximum characters to return.
+        
+    Returns:
+        Extracted text or None if extraction fails.
+    """
+    suffix = file_path.suffix.lower()
+    
+    if suffix == '.pdf':
+        return extract_text_from_pdf(file_path, max_chars=max_chars)
+    elif suffix in ['.txt', '.md', '.py']:
+        return extract_text_from_text_file(file_path, max_chars=max_chars)
+    elif suffix in ['.doc', '.docx']:
+        return extract_text_from_docx(file_path, max_chars=max_chars)
+    else:
+        return None
+
+
 def extract_text_from_pdf(pdf_path: Path, max_pages: int = 3, max_chars: int = 5000) -> Optional[str]:
     """
     Extract text from the first few pages of a PDF.
@@ -88,6 +111,66 @@ def extract_text_from_pdf(pdf_path: Path, max_pages: int = 3, max_chars: int = 5
         text = "".join(text_parts)[:max_chars]
         return text.strip() if text.strip() else None
         
+    except Exception:
+        return None
+
+
+def extract_text_from_text_file(file_path: Path, max_chars: int = 5000) -> Optional[str]:
+    """
+    Extract text from text-based files (.txt, .md, .py).
+    
+    Args:
+        file_path: Path to the text file.
+        max_chars: Maximum characters to return.
+        
+    Returns:
+        Extracted text or None if extraction fails.
+    """
+    try:
+        # Try UTF-8 first
+        with open(file_path, 'r', encoding='utf-8') as f:
+            text = f.read(max_chars)
+        return text.strip() if text.strip() else None
+    except UnicodeDecodeError:
+        # Try alternative encodings
+        for encoding in ['latin-1', 'cp1252', 'iso-8859-1']:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    text = f.read(max_chars)
+                return text.strip() if text.strip() else None
+            except UnicodeDecodeError:
+                continue
+    except Exception:
+        pass
+    return None
+
+
+def extract_text_from_docx(file_path: Path, max_chars: int = 5000) -> Optional[str]:
+    """
+    Extract text from Word documents (.doc, .docx).
+    
+    Args:
+        file_path: Path to the Word document.
+        max_chars: Maximum characters to return.
+        
+    Returns:
+        Extracted text or None if extraction fails.
+    """
+    try:
+        from docx import Document
+        doc = Document(file_path)
+        text_parts = []
+        
+        for para in doc.paragraphs:
+            text_parts.append(para.text)
+            if len('\n'.join(text_parts)) >= max_chars:
+                break
+        
+        text = '\n'.join(text_parts)[:max_chars]
+        return text.strip() if text.strip() else None
+    except ImportError:
+        # python-docx not installed
+        return None
     except Exception:
         return None
 

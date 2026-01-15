@@ -8,9 +8,9 @@ I wrote this because I got mass-downloading papers from Sci-Hub and then staring
 
 ## What It Does
 
-- Strips text from PDFs and uses **arXiv, Semantic Scholar, Crossref, PubMed, OpenLibrary, and Unpaywall** to find the actual source
-- Renames files to `Author_Year_Title.pdf` like a civilized person
-- Handles PDFs, ebooks, and most document formats - throw it at it, let's find out
+- Strips text from documents and uses **arXiv, Semantic Scholar, Crossref, PubMed, OpenLibrary, and Unpaywall** to find the actual source
+- Renames files to `Author_Year_Title.ext` like a civilized person
+- Handles **PDF, TXT, Markdown, DOC/DOCX, and Python files** - throw it at it, let's find out
 - Maintains a BibTeX database so you don't have to
 - Logs everything, doesn't break anything, asks before doing anything destructive
 - **Optionally** uses a local LLM (Ollama) or cloud providers (OpenAI, Anthropic, Gemini) if the free APIs come up empty

@@ -68,9 +68,9 @@ def pdf(
     bibtex: Optional[str],
 ) -> None:
     """
-    Rename PDF files based on academic metadata.
+    Rename academic documents based on metadata.
     
-    PATH can be a single PDF file or a directory containing PDFs.
+    PATH can be a single file or a directory. Supports: PDF, TXT, MD, DOC, DOCX, PY
     
     By default, runs in dry-run mode (preview only). Use --execute to perform renames.
     

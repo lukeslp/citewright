@@ -264,7 +264,7 @@ class PDFRenamer:
         dry_run: bool = True,
     ) -> List[RenameOperation]:
         """
-        Process all PDF files in a directory.
+        Process all document files in a directory.
         
         Args:
             directory: Directory to process.
@@ -274,14 +274,19 @@ class PDFRenamer:
         Returns:
             List of RenameOperations.
         """
-        pattern = "**/*.pdf" if recursive else "*.pdf"
-        pdf_files = list(directory.glob(pattern))
+        # Supported formats
+        extensions = ['*.pdf', '*.txt', '*.md', '*.doc', '*.docx', '*.py']
         
-        logger.info(f"Found {len(pdf_files)} PDF files in {directory}")
+        files = []
+        for ext in extensions:
+            pattern = f"**/{ext}" if recursive else ext
+            files.extend(directory.glob(pattern))
+        
+        logger.info(f"Found {len(files)} document files in {directory}")
         
         operations = []
-        for pdf_path in pdf_files:
-            operation = self.process_file(pdf_path, dry_run=dry_run)
+        for file_path in files:
+            operation = self.process_file(file_path, dry_run=dry_run)
             operations.append(operation)
         
         # Save log
