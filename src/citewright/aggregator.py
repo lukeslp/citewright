@@ -58,7 +58,7 @@ class MetadataAggregator:
     Tier 1: Local metadata extraction (PDF embedded metadata)
     Tier 2: Identifier-based lookup (DOI, arXiv ID, ISBN, PMID)
     Tier 3: Content-based search (title/author search)
-    Tier 4: AI analysis (optional, requires configuration)
+    Tier 4: LLM analysis (optional, requires configuration)
     """
     
     def __init__(self):

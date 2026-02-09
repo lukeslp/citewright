@@ -1,5 +1,5 @@
 """
-AI Analyzer for CiteWright.
+LLM Analyzer for CiteWright.
 
 Provides optional LLM-based metadata extraction for difficult cases
 where traditional API lookups fail.
@@ -62,7 +62,7 @@ class AIAnalyzer:
         self._client = None
     
     def _get_client(self):
-        """Get or create the AI client."""
+        """Get or create the LLM client."""
         if self._client is not None:
             return self._client
         
@@ -140,12 +140,12 @@ class AIAnalyzer:
             PaperMetadata or None if analysis fails.
         """
         if not self.config.ai_enabled:
-            logger.debug("AI analysis is disabled")
+            logger.debug("LLM analysis is disabled")
             return None
         
         client = self._get_client()
         if client is None:
-            logger.error("Failed to create AI client")
+            logger.error("Failed to create LLM client")
             return None
         
         ai_config = self.config.get_ai_config()
@@ -161,7 +161,7 @@ class AIAnalyzer:
             else:
                 return self._analyze_with_openai(client, model, user_message)
         except Exception as e:
-            logger.error(f"AI analysis failed: {e}")
+            logger.error(f"LLM analysis failed: {e}")
             return None
     
     def _analyze_with_openai(self, client, model: str, user_message: str) -> Optional[PaperMetadata]:
@@ -208,7 +208,7 @@ class AIAnalyzer:
             
             # Validate required field
             if not data.get("title"):
-                logger.warning("AI response missing title")
+                logger.warning("LLM response missing title")
                 return None
             
             return PaperMetadata(
@@ -219,10 +219,10 @@ class AIAnalyzer:
                 venue=data.get("venue"),
                 keywords=data.get("keywords", []),
                 source="ai_analysis",
-                confidence=0.6,  # Lower confidence for AI-extracted data
+                confidence=0.6,  # Lower confidence for LLM-extracted data
             )
         except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse AI response as JSON: {e}")
+            logger.error(f"Failed to parse LLM response as JSON: {e}")
             return None
     
     def analyze_image(self, image_path: Path) -> Optional[Dict[str, Any]]:
@@ -236,7 +236,7 @@ class AIAnalyzer:
             Dictionary with extracted information or None.
         """
         if not self.config.ai_enabled:
-            logger.debug("AI analysis is disabled")
+            logger.debug("LLM analysis is disabled")
             return None
         
         client = self._get_client()
@@ -328,7 +328,7 @@ class AIAnalyzer:
 
 
 def is_ai_available() -> bool:
-    """Check if AI analysis is available and configured."""
+    """Check if LLM analysis is available and configured."""
     config = get_config()
     
     if not config.ai_enabled:

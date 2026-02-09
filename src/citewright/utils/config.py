@@ -22,7 +22,7 @@ for directory in [CONFIG_DIR, CACHE_DIR, LOG_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
 
 
-# Supported AI providers with their configurations
+# Supported LLM providers with their configurations
 AI_PROVIDERS = {
     "ollama": {
         "env_key": None,
@@ -55,7 +55,7 @@ AI_PROVIDERS = {
 class Config:
     """Application configuration."""
     
-    # AI settings
+    # LLM settings
     ai_provider: str = "ollama"
     ai_enabled: bool = False
     
@@ -135,7 +135,7 @@ class Config:
             json.dump(config_data, f, indent=2)
     
     def get_ai_config(self, vision: bool = False) -> Dict[str, Any]:
-        """Get AI provider configuration.
+        """Get LLM provider configuration.
         
         Args:
             vision: If True, return vision-capable model config.

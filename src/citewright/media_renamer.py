@@ -2,7 +2,7 @@
 Media Renamer for CiteWright.
 
 Handles renaming image and video files using metadata extraction
-and optional AI-based description.
+and optional vision-model-based description.
 """
 
 import json
@@ -181,8 +181,8 @@ class MediaRenameOperation:
 class MediaRenamer:
     """
     Renames media files (images, videos) based on metadata.
-    
-    Uses EXIF data, file properties, and optionally AI vision
+
+    Uses EXIF data, file properties, and optionally vision models
     to generate descriptive filenames.
     """
     
@@ -193,10 +193,10 @@ class MediaRenamer:
         self.config = get_config()
         self.operations: List[MediaRenameOperation] = []
         self._ai_analyzer = None
-    
+
     @property
     def ai_analyzer(self):
-        """Lazy load AI analyzer."""
+        """Lazy load LLM analyzer."""
         if self._ai_analyzer is None and self.config.ai_enabled:
             from .ai_analyzer import AIAnalyzer
             self._ai_analyzer = AIAnalyzer()
@@ -222,16 +222,16 @@ class MediaRenamer:
         Args:
             metadata: Extracted metadata.
             original_path: Original file path.
-            ai_description: Optional AI-generated description.
+            ai_description: Optional vision-model-generated description.
             
         Returns:
             Generated filename.
         """
         parts = []
         
-        # Use AI description if available
+        # Use vision model description if available
         if ai_description:
-            # Extract suggested filename from AI response
+            # Extract suggested filename from vision model response
             clean_desc = clean_text_for_filename(ai_description, max_words=5)
             if clean_desc:
                 parts.append(clean_desc)
@@ -282,7 +282,7 @@ class MediaRenamer:
         
         Args:
             file_path: Path to the media file.
-            use_ai: Whether to use AI for description.
+            use_ai: Whether to use vision model for description.
             dry_run: If True, don't actually rename.
             
         Returns:
@@ -301,16 +301,16 @@ class MediaRenamer:
             metadata = {"filename": file_path.name}
             method = "fallback"
         
-        # Try AI analysis if enabled
+        # Try vision model analysis if enabled
         ai_description = None
         if use_ai and self.ai_analyzer and self._is_image(file_path):
             try:
                 result = self.ai_analyzer.analyze_image(file_path)
                 if result and "description" in result:
                     ai_description = result["description"]
-                    method = "ai_vision"
+                    method = "vision_model"
             except Exception as e:
-                logger.debug(f"AI analysis failed: {e}")
+                logger.debug(f"vision model analysis failed: {e}")
         
         # Generate new filename
         new_filename = self.generate_filename(metadata, file_path, ai_description)
@@ -352,7 +352,7 @@ class MediaRenamer:
         Args:
             directory: Directory to process.
             recursive: If True, process subdirectories.
-            use_ai: Whether to use AI for descriptions.
+            use_ai: Whether to use vision model for descriptions.
             dry_run: If True, don't actually rename.
             
         Returns:

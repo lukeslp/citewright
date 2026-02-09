@@ -36,7 +36,7 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install .
 ```
 
-Want the AI features and media processing?
+Want the LLM-powered features and media processing?
 
 ```bash
 pip install ".[all]"
@@ -59,7 +59,7 @@ citewright pdf ~/papers --execute
 citewright pdf ~/papers -r --execute --bibtex library.bib
 ```
 
-**Let AI take a crack at the stubborn ones:**
+**Let the LLM analyze the stubborn ones:**
 ```bash
 citewright pdf ~/papers --ai --execute
 ```
@@ -69,7 +69,7 @@ citewright pdf ~/papers --ai --execute
 citewright media ~/photos --execute
 ```
 
-**Use AI vision to describe images:**
+**Use vision models to describe images:**
 ```bash
 citewright media ~/photos --ai --execute
 ```
@@ -85,7 +85,7 @@ Config lives at `~/.config/citewright/config.json`, or use the CLI:
 
 ```bash
 citewright config --show
-citewright config --ai-provider openai
+citewright config --ai-provider openai  # Select LLM provider
 citewright config --ai-enabled
 citewright config --unpaywall-email "you@example.com"
 ```

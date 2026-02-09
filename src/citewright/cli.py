@@ -41,9 +41,9 @@ def setup_logging(verbose: bool = False) -> None:
 def main(ctx: click.Context, verbose: bool) -> None:
     """
     CiteWright - Intelligent academic paper and media renaming tool.
-    
+
     Renames files using metadata from multiple academic sources (arXiv,
-    Semantic Scholar, Crossref, PubMed, OpenLibrary) with optional AI enhancement.
+    Semantic Scholar, Crossref, PubMed, OpenLibrary) with optional LLM enhancement.
     """
     ctx.ensure_object(dict)
     ctx.obj["verbose"] = verbose
@@ -55,7 +55,7 @@ def main(ctx: click.Context, verbose: bool) -> None:
 @click.option("-r", "--recursive", is_flag=True, help="Process subdirectories")
 @click.option("-n", "--dry-run", is_flag=True, default=True, help="Preview changes without renaming (default)")
 @click.option("--execute", is_flag=True, help="Actually perform the renames")
-@click.option("--ai", is_flag=True, help="Enable AI analysis for difficult files")
+@click.option("--ai", is_flag=True, help="Enable LLM analysis for difficult files")
 @click.option("-b", "--bibtex", type=click.Path(), help="Output BibTeX file path")
 @click.pass_context
 def pdf(
@@ -80,7 +80,7 @@ def pdf(
         citewright pdf ~/papers/ --execute          # Actually rename
         citewright pdf ~/papers/ -r --execute       # Recursive
         citewright pdf paper.pdf --execute          # Single file
-        citewright pdf ~/papers/ --ai --execute     # Use AI for difficult files
+        citewright pdf ~/papers/ --ai --execute     # Use LLM for difficult files
     """
     target = Path(path)
     
@@ -174,7 +174,7 @@ def pdf(
 @click.option("-r", "--recursive", is_flag=True, help="Process subdirectories")
 @click.option("-n", "--dry-run", is_flag=True, default=True, help="Preview changes without renaming (default)")
 @click.option("--execute", is_flag=True, help="Actually perform the renames")
-@click.option("--ai", is_flag=True, help="Use AI vision for image descriptions")
+@click.option("--ai", is_flag=True, help="Use vision model for image descriptions")
 @click.pass_context
 def media(
     ctx: click.Context,
@@ -189,14 +189,14 @@ def media(
     
     PATH can be a single file or a directory.
     
-    Uses EXIF data, file properties, and optionally AI vision to generate
+    Uses EXIF data, file properties, and optionally vision models to generate
     descriptive filenames.
     
     \b
     Examples:
         citewright media ~/photos/                  # Preview renames
         citewright media ~/photos/ --execute        # Actually rename
-        citewright media ~/photos/ --ai --execute   # Use AI vision
+        citewright media ~/photos/ --ai --execute   # Use vision model
     """
     target = Path(path)
     actual_dry_run = not execute
@@ -338,8 +338,8 @@ def config(
         table.add_column("Value", style="green")
         
         table.add_row("Config file", str(CONFIG_FILE))
-        table.add_row("AI Provider", cfg.ai_provider)
-        table.add_row("AI Enabled", str(cfg.ai_enabled))
+        table.add_row("LLM Provider", cfg.ai_provider)
+        table.add_row("LLM Enabled", str(cfg.ai_enabled))
         table.add_row("Max Title Words", str(cfg.max_title_words))
         table.add_row("Filename Format", cfg.filename_format)
         table.add_row("Generate BibTeX", str(cfg.generate_bibtex))
@@ -375,9 +375,9 @@ def sources(ctx: click.Context) -> None:
     
     console.print(table)
     
-    # AI providers
+    # LLM providers
     console.print("\n")
-    ai_table = Table(title="AI Providers (Optional)")
+    ai_table = Table(title="LLM Providers (Optional)")
     ai_table.add_column("Provider", style="cyan")
     ai_table.add_column("Env Variable", style="dim")
     ai_table.add_column("Status")

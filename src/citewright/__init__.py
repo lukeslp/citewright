@@ -2,7 +2,7 @@
 CiteWright - Intelligent academic paper and media renaming tool.
 
 A comprehensive tool for renaming academic papers and media files using
-multi-source metadata extraction with optional AI enhancement.
+multi-source metadata extraction with optional LLM enhancement.
 """
 
 __version__ = "0.1.0"
