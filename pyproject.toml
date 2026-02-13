@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "citewright"
-version = "0.1.0"
+version = "0.1.1"
 description = "Intelligent academic paper and media renaming tool with multi-source metadata extraction"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
 authors = [
-    { name = "Luke Steuber", email = "luke@lukesteuber.com" }
+    { name = "Luke Steuber", email = "luke@dr.eamer.dev" }
 ]
 keywords = [
     "academic",

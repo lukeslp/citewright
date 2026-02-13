@@ -1,5 +1,9 @@
 # CiteWright
 
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status: Active](https://img.shields.io/badge/status-active-success.svg)]()
+
 Anybody else have a huge folder full of files with names like `235680_download.PDF` and `smith_et_al_2008_full.pdf(2)`?
 
 ... yeah.
