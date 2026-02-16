@@ -102,6 +102,6 @@ MIT. Do whatever.
 
 ## Author
 
-Luke Steuber  
-https://github.com/lukeslp  
-luke@actuallyuseful.ai
+Luke Steuber
+https://github.com/lukeslp
+luke@dr.eamer.dev
